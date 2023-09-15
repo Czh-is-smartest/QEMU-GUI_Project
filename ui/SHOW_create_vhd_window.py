@@ -14,31 +14,26 @@ import os
 
 from PyQt5.QtWidgets import QMainWindow
 
+from create_vhd_window import Ui_CreateVHDWindow
+
 create_vhd_window = uic.loadUiType(
     f"{os.path.dirname(__file__)}\\create_vhd_window.ui"
 )[0]
 
 
-class Ui_CreateVHDWindow(QMainWindow, create_vhd_window):
+class CreateVHDWindow(QMainWindow, Ui_CreateVHDWindow):
     def __init__(self, parent=None):
-        super(Ui_CreateVHDWindow, self).__init__(parent)
+        super(CreateVHDWindow, self).__init__()
         self.setupUi(self)
-        self.window = None
         self.format_list = {}
+        self.window = None
 
         self.setWindowIcon(
             QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
         )
+
         self.About.triggered.connect(self.show_about_window)
-        with open(
-            f"{os.path.dirname(__file__)}\\..\\支持格式.txt", "r", encoding="utf-8"
-        ) as f:
-            for i in f.readlines():
-                self.format_list[i.split("：")[0]] = i.split("：")[1]
-        print(list(self.format_list.keys()))
-        self.format.addItems(list(self.format_list.keys()))
-        self.format.activated.connect(self.show_introduce)
-        self.in
+        self.set_combo()
 
     def show_about_window(self):
         from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
@@ -59,6 +54,17 @@ class Ui_CreateVHDWindow(QMainWindow, create_vhd_window):
 
     def handleCurrentIndexChanged(self, index):
         print(index)
+
+    def set_combo(self):
+        with open(
+            f"{os.path.dirname(__file__)}\\..\\支持格式.txt", "r", encoding="utf-8"
+        ) as f:
+            for i in f.readlines():
+                self.format_list[i.split("：")[0]] = i.split("：")[1]
+        self.format.addItems(list(self.format_list.keys()))
+        self.format.activated.connect(self.show_introduce)
+        self.format.currentIndexChanged.connect(self.handleCurrentIndexChanged)
+        self.introduce.setText(self.format_list["qcow2"])
 
 
 if __name__ == "__main__":
