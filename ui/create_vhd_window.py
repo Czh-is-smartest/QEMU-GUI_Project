@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import sys
 
 # Form implementation generated from reading ui file 'create_vhd_window.ui'
 #
@@ -10,21 +9,13 @@ import sys
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-import os
-
-from PyQt5.QtWidgets import QMainWindow
 
 
 class Ui_CreateVHDWindow(object):
-    def __init__(self):
-        self.window = None
-
     def setupUi(self, CreateVHDWindow):
         CreateVHDWindow.setObjectName("CreateVHDWindow")
         CreateVHDWindow.resize(800, 600)
-        sizePolicy = QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed
-        )
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
         sizePolicy.setHeightForWidth(CreateVHDWindow.sizePolicy().hasHeightForWidth())
@@ -39,62 +30,36 @@ class Ui_CreateVHDWindow(object):
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout = QtWidgets.QGridLayout(self.centralwidget)
         self.gridLayout.setObjectName("gridLayout")
-        self.label_2 = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("微软雅黑")
-        font.setPointSize(13)
-        self.label_2.setFont(font)
-        self.label_2.setObjectName("label_2")
-        self.gridLayout.addWidget(self.label_2, 2, 0, 1, 1)
+        self.CancelButton = QtWidgets.QPushButton(self.centralwidget)
+        self.CancelButton.setObjectName("CancelButton")
+        self.gridLayout.addWidget(self.CancelButton, 5, 12, 1, 1)
         self.CreateButton = QtWidgets.QPushButton(self.centralwidget)
         self.CreateButton.setObjectName("CreateButton")
-        self.gridLayout.addWidget(self.CreateButton, 3, 5, 1, 1)
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("微软雅黑")
-        font.setPointSize(13)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
-        self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
-        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
-        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
-        self.format = QtWidgets.QComboBox(self.centralwidget)
-        self.format.setObjectName("format")
-        self.format.addItem("")
-        self.format.addItem("")
-        self.format.addItem("")
-        self.format.addItem("")
-        self.format.addItem("")
-        self.horizontalLayout_2.addWidget(self.format)
-        spacerItem = QtWidgets.QSpacerItem(
-            40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum
-        )
-        self.horizontalLayout_2.addItem(spacerItem)
+        self.gridLayout.addWidget(self.CreateButton, 5, 11, 1, 1)
+        self.gridLayout_2 = QtWidgets.QGridLayout()
+        self.gridLayout_2.setObjectName("gridLayout_2")
         self.introduce = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
         font.setPointSize(12)
         self.introduce.setFont(font)
         self.introduce.setObjectName("introduce")
-        self.horizontalLayout_2.addWidget(self.introduce)
-        self.gridLayout.addLayout(self.horizontalLayout_2, 2, 1, 1, 1)
-        self.CancelButton = QtWidgets.QPushButton(self.centralwidget)
-        self.CancelButton.setObjectName("CancelButton")
-        self.gridLayout.addWidget(self.CancelButton, 3, 6, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(
-            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding
-        )
-        self.gridLayout.addItem(spacerItem1, 1, 6, 1, 1)
-        self.VHD_Path = QtWidgets.QLineEdit(self.centralwidget)
-        font = QtGui.QFont()
-        font.setFamily("微软雅黑")
-        font.setPointSize(13)
-        self.VHD_Path.setFont(font)
-        self.VHD_Path.setObjectName("VHD_Path")
-        self.gridLayout.addWidget(self.VHD_Path, 1, 1, 1, 1)
-        self.browse = QtWidgets.QPushButton(self.centralwidget)
-        self.browse.setObjectName("browse")
-        self.gridLayout.addWidget(self.browse, 1, 3, 1, 1)
+        self.gridLayout_2.addWidget(self.introduce, 2, 3, 1, 1)
+        self.horizontalLayout_2 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_2.setObjectName("horizontalLayout_2")
+        self.gridLayout_2.addLayout(self.horizontalLayout_2, 1, 0, 1, 1)
+        self.format = QtWidgets.QComboBox(self.centralwidget)
+        self.format.setObjectName("format")
+        self.gridLayout_2.addWidget(self.format, 2, 1, 1, 1)
+        spacerItem = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem, 2, 4, 1, 1)
+        spacerItem1 = QtWidgets.QSpacerItem(40, 20, QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_2.addItem(spacerItem1, 2, 2, 1, 1)
+        spacerItem2 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem2, 1, 3, 1, 1)
+        spacerItem3 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+        self.gridLayout_2.addItem(spacerItem3, 3, 3, 1, 1)
+        self.gridLayout.addLayout(self.gridLayout_2, 3, 2, 1, 1)
         self.title = QtWidgets.QLabel(self.centralwidget)
         font = QtGui.QFont()
         font.setFamily("微软雅黑")
@@ -108,7 +73,34 @@ class Ui_CreateVHDWindow(object):
         self.title.setAutoFillBackground(False)
         self.title.setAlignment(QtCore.Qt.AlignCenter)
         self.title.setObjectName("title")
-        self.gridLayout.addWidget(self.title, 0, 1, 1, 1)
+        self.gridLayout.addWidget(self.title, 0, 2, 1, 1)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        font.setPointSize(13)
+        self.label.setFont(font)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 1, 0, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        font.setPointSize(13)
+        self.label_2.setFont(font)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 3, 0, 1, 1)
+        self.horizontalLayout = QtWidgets.QHBoxLayout()
+        self.horizontalLayout.setObjectName("horizontalLayout")
+        self.VHD_Path = QtWidgets.QLineEdit(self.centralwidget)
+        font = QtGui.QFont()
+        font.setFamily("微软雅黑")
+        font.setPointSize(13)
+        self.VHD_Path.setFont(font)
+        self.VHD_Path.setObjectName("VHD_Path")
+        self.horizontalLayout.addWidget(self.VHD_Path)
+        self.browse = QtWidgets.QPushButton(self.centralwidget)
+        self.browse.setObjectName("browse")
+        self.horizontalLayout.addWidget(self.browse)
+        self.gridLayout.addLayout(self.horizontalLayout, 1, 2, 1, 1)
         CreateVHDWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(CreateVHDWindow)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 25))
@@ -121,11 +113,7 @@ class Ui_CreateVHDWindow(object):
         CreateVHDWindow.setStatusBar(self.statusbar)
         self.About = QtWidgets.QAction(CreateVHDWindow)
         icon = QtGui.QIcon()
-        icon.addPixmap(
-            QtGui.QPixmap(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico"),
-            QtGui.QIcon.Normal,
-            QtGui.QIcon.Off,
-        )
+        icon.addPixmap(QtGui.QPixmap("../img/qemu.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.About.setIcon(icon)
         self.About.setObjectName("About")
         self.menu_Help.addAction(self.About)
@@ -135,49 +123,14 @@ class Ui_CreateVHDWindow(object):
         QtCore.QMetaObject.connectSlotsByName(CreateVHDWindow)
 
     def retranslateUi(self, CreateVHDWindow):
-        with open(
-            f"{os.path.dirname(__file__)}\\..\\支持格式.txt", "r", encoding="utf-8"
-        ) as f:
-            format_list = {}
-            for i in f.readlines():
-                format_list[i.split("：")[0]] = i.split("：")[1]
         _translate = QtCore.QCoreApplication.translate
         CreateVHDWindow.setWindowTitle(_translate("CreateVHDWindow", "新建虚拟硬盘"))
-        self.label_2.setText(_translate("CreateVHDWindow", "硬盘格式："))
-        self.CreateButton.setText(_translate("CreateVHDWindow", "创建"))
-        self.label.setText(_translate("CreateVHDWindow", "存放路径："))
-        self.format.setItemText(0, _translate("CreateVHDWindow", "0"))
-        self.format.setItemText(1, _translate("CreateVHDWindow", "1"))
-        self.format.setItemText(2, _translate("CreateVHDWindow", "2"))
-        self.format.setItemText(3, _translate("CreateVHDWindow", "3"))
-        self.format.setItemText(4, _translate("CreateVHDWindow", "4"))
-        self.introduce.setText(_translate("CreateVHDWindow", "无"))
         self.CancelButton.setText(_translate("CreateVHDWindow", "取消"))
+        self.CreateButton.setText(_translate("CreateVHDWindow", "创建"))
+        self.introduce.setText(_translate("CreateVHDWindow", "无"))
+        self.title.setText(_translate("CreateVHDWindow", "创建虚拟硬盘"))
+        self.label.setText(_translate("CreateVHDWindow", "存放路径："))
+        self.label_2.setText(_translate("CreateVHDWindow", "硬盘格式："))
         self.browse.setText(_translate("CreateVHDWindow", "浏览"))
-        self.title.setText(_translate("CreateVHDWindow", "                    创建虚拟硬盘"))
         self.menu_Help.setTitle(_translate("CreateVHDWindow", "帮助(&H)"))
         self.About.setText(_translate("CreateVHDWindow", "关于 QEMU-GUI 创建虚拟硬盘(&A)"))
-        CreateVHDWindow.setWindowIcon(
-            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
-        )
-        self.About.triggered.connect(self.show_about_window)
-
-    def show_about_window(self):
-        from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
-
-        self.window = QMainWindow()
-        ui = Ui_AboutCreateVHDWindow()
-        ui.setupUi(self.window)
-        self.window.setWindowIcon(
-            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
-        )
-        self.window.show()
-
-
-if __name__ == "__main__":
-    app = QtWidgets.QApplication(sys.argv)
-    window = QtWidgets.QMainWindow()
-    ui = Ui_CreateVHDWindow()
-    ui.setupUi(window)
-    window.show()
-    sys.exit(app.exec_())
