@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import sys
 
 # Form implementation generated from reading ui file 'create_vhd_window.ui'
 #
@@ -11,8 +12,13 @@
 from PyQt5 import QtCore, QtGui, QtWidgets
 import os
 
+from PyQt5.QtWidgets import QMainWindow
+
 
 class Ui_CreateVHDWindow(object):
+    def __init__(self):
+        self.window = None
+
     def setupUi(self, CreateVHDWindow):
         CreateVHDWindow.setObjectName("CreateVHDWindow")
         CreateVHDWindow.resize(800, 600)
@@ -116,7 +122,9 @@ class Ui_CreateVHDWindow(object):
         self.About = QtWidgets.QAction(CreateVHDWindow)
         icon = QtGui.QIcon()
         icon.addPixmap(
-            QtGui.QPixmap("../img/qemu.ico"), QtGui.QIcon.Normal, QtGui.QIcon.Off
+            QtGui.QPixmap(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico"),
+            QtGui.QIcon.Normal,
+            QtGui.QIcon.Off,
         )
         self.About.setIcon(icon)
         self.About.setObjectName("About")
@@ -149,3 +157,27 @@ class Ui_CreateVHDWindow(object):
         self.title.setText(_translate("CreateVHDWindow", "                    创建虚拟硬盘"))
         self.menu_Help.setTitle(_translate("CreateVHDWindow", "帮助(&H)"))
         self.About.setText(_translate("CreateVHDWindow", "关于 QEMU-GUI 创建虚拟硬盘(&A)"))
+        CreateVHDWindow.setWindowIcon(
+            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
+        )
+        self.About.triggered.connect(self.show_about_window)
+
+    def show_about_window(self):
+        from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
+
+        self.window = QMainWindow()
+        ui = Ui_AboutCreateVHDWindow()
+        ui.setupUi(self.window)
+        self.window.setWindowIcon(
+            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
+        )
+        self.window.show()
+
+
+if __name__ == "__main__":
+    app = QtWidgets.QApplication(sys.argv)
+    window = QtWidgets.QMainWindow()
+    ui = Ui_CreateVHDWindow()
+    ui.setupUi(window)
+    window.show()
+    sys.exit(app.exec_())

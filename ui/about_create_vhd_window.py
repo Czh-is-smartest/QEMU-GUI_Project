@@ -194,4 +194,5 @@ if __name__ == "__main__":
     window = QtWidgets.QMainWindow()
     ui = Ui_AboutCreateVHDWindow()
     ui.setupUi(window)
+    window.show()
     sys.exit(app.exec_())
