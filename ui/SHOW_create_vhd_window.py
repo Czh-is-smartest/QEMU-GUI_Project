@@ -21,12 +21,13 @@ create_vhd_window = uic.loadUiType(
 )[0]
 
 
-class CreateVHDWindow(QMainWindow, Ui_CreateVHDWindow):
+class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def __init__(self, parent=None):
-        super(CreateVHDWindow, self).__init__()
+        super(CreateVHDWindow, self).__init__(parent)
         self.setupUi(self)
+        self.CancelButton.clicked.connect(self.exit)
+
         self.format_list = {}
-        self.window = None
 
         self.setWindowIcon(
             QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
@@ -49,11 +50,12 @@ class CreateVHDWindow(QMainWindow, Ui_CreateVHDWindow):
     def show_introduce(self, index):
         self.introduce.setText(list(self.format_list.values())[index])
         # print(list(self.format_list.values())[index])
-        self.introduce.setWordWrap(True)
-        self.introduce.setFixedWidth(500)
-
-    def handleCurrentIndexChanged(self, index):
-        print(index)
+        print(len(list(self.format_list.values())[index]))
+        if len(list(self.format_list.values())[index]) > 50:
+            self.introduce.setWordWrap(True)
+            self.introduce.setFixedWidth(550)
+        else:
+            self.introduce.setWordWrap(False)
 
     def set_combo(self):
         with open(
@@ -63,14 +65,17 @@ class CreateVHDWindow(QMainWindow, Ui_CreateVHDWindow):
                 self.format_list[i.split("：")[0]] = i.split("：")[1]
         self.format.addItems(list(self.format_list.keys()))
         self.format.activated.connect(self.show_introduce)
-        self.format.currentIndexChanged.connect(self.handleCurrentIndexChanged)
         self.introduce.setText(self.format_list["qcow2"])
+        self.introduce.setWordWrap(True)
+        self.introduce.setFixedWidth(550)
+
+    def exit(self):
+        self.close()
 
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication(sys.argv)
-    window = QtWidgets.QMainWindow()
-    ui = Ui_CreateVHDWindow()
-    ui.setupUi(window)
-    window.show()
+    ui = CreateVHDWindow()
+
+    ui.show()
     sys.exit(app.exec_())
