@@ -50,7 +50,6 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def show_introduce(self, index):
         self.introduce.setText(list(self.format_list.values())[index])
         # print(list(self.format_list.values())[index])
-        print(len(list(self.format_list.values())[index]))
         if len(list(self.format_list.values())[index]) > 50:
             self.introduce.setWordWrap(True)
             self.introduce.setFixedWidth(550)
