@@ -11,6 +11,8 @@ import sys
 
 from PyQt5 import QtCore, QtGui, QtWidgets, uic
 import os
+from tkinter import filedialog as file_path
+import tkinter
 
 from PyQt5.QtWidgets import QMainWindow
 
@@ -25,16 +27,33 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def __init__(self, parent=None):
         super(CreateVHDWindow, self).__init__(parent)
         self.setupUi(self)
+        self.validator = QtGui.QRegExpValidator(QtGui.QRegExp('[^/\\\\:\*\?"<>\|]*'))
+        self.name.setValidator(self.validator)
+
         self.CancelButton.clicked.connect(self.exit)
-
+        self.tk_init()
         self.format_list = {}
-
+        self.unit_list = {
+            "KB": "k",
+            "MB": "M",
+            "GB": "G",
+            "TB": "T",
+            "PB": "P",
+            "EB": "E",
+        }
         self.setWindowIcon(
             QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
         )
 
         self.About.triggered.connect(self.show_about_window)
         self.set_combo()
+        self.name.setText("vhd.qcow2")
+        self.browse.clicked.connect(self.ask_vhd_path)
+
+    def tk_init(self):
+        tk = tkinter.Tk()
+        tk.withdraw()
+        tk.iconbitmap(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
 
     def show_about_window(self):
         from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
@@ -49,6 +68,9 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
 
     def show_introduce(self, index):
         self.introduce.setText(list(self.format_list.values())[index])
+        self.name.setText(
+            self.name.text().split(".")[0] + f".{list(self.format_list.keys())[index]}"
+        )
         # print(list(self.format_list.values())[index])
         if len(list(self.format_list.values())[index]) > 50:
             self.introduce.setWordWrap(True)
@@ -67,9 +89,18 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.introduce.setText(self.format_list["qcow2"])
         self.introduce.setWordWrap(True)
         self.introduce.setFixedWidth(550)
+        self.unit.addItems(list(self.unit_list.keys()))
 
     def exit(self):
         self.close()
+
+    def ask_vhd_path(self):
+        self.vhd_path = file_path.askdirectory()
+        if self.vhd_path:
+            self.VHD_Path.setText(self.vhd_path)
+
+    def create(self):
+        pass
 
 
 if __name__ == "__main__":

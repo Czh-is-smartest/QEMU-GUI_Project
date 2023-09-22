@@ -44,10 +44,10 @@
     </property>
     <property name="geometry">
      <rect>
-      <x>180</x>
-      <y>90</y>
+      <x>190</x>
+      <y>95</y>
       <width>101</width>
-      <height>61</height>
+      <height>71</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -69,10 +69,10 @@
    <widget class="QComboBox" name="format">
     <property name="geometry">
      <rect>
-      <x>101</x>
-      <y>99</y>
-      <width>76</width>
-      <height>25</height>
+      <x>100</x>
+      <y>105</y>
+      <width>80</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -81,14 +81,25 @@
       <verstretch>0</verstretch>
      </sizepolicy>
     </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/*border-radius: 10px;*/
+border: 1px solid;
+</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_2">
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>100</y>
+      <y>105</y>
       <width>85</width>
-      <height>23</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="sizePolicy">
@@ -111,9 +122,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>54</y>
+      <y>60</y>
       <width>85</width>
-      <height>23</height>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -129,10 +140,10 @@
    <widget class="QLineEdit" name="VHD_Path">
     <property name="geometry">
      <rect>
-      <x>101</x>
-      <y>54</y>
-      <width>451</width>
-      <height>29</height>
+      <x>100</x>
+      <y>60</y>
+      <width>450</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="font">
@@ -141,15 +152,32 @@
       <pointsize>13</pointsize>
      </font>
     </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 10px;
+border: 1px solid;
+</string>
+    </property>
    </widget>
    <widget class="QPushButton" name="browse">
     <property name="geometry">
      <rect>
       <x>560</x>
-      <y>55</y>
+      <y>60</y>
       <width>75</width>
-      <height>27</height>
+      <height>30</height>
      </rect>
+    </property>
+    <property name="sizePolicy">
+     <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <horstretch>0</horstretch>
+      <verstretch>0</verstretch>
+     </sizepolicy>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>11</pointsize>
+     </font>
     </property>
     <property name="text">
      <string>浏览</string>
@@ -159,7 +187,7 @@
     <property name="geometry">
      <rect>
       <x>639</x>
-      <y>520</y>
+      <y>540</y>
       <width>75</width>
       <height>27</height>
      </rect>
@@ -178,7 +206,7 @@
     <property name="geometry">
      <rect>
       <x>720</x>
-      <y>520</y>
+      <y>540</y>
       <width>75</width>
       <height>27</height>
      </rect>
@@ -233,6 +261,104 @@
      <set>Qt::AlignCenter</set>
     </property>
    </widget>
+   <widget class="QLabel" name="label_3">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>150</y>
+      <width>85</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>硬盘大小：</string>
+    </property>
+   </widget>
+   <widget class="QSpinBox" name="size">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>150</y>
+      <width>80</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/*border-radius: 10px;*/
+border: 1px solid;</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="unit">
+    <property name="geometry">
+     <rect>
+      <x>190</x>
+      <y>150</y>
+      <width>60</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">/*border-radius: 10px;*/
+border: 1px solid;</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_4">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>195</y>
+      <width>85</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>硬盘名称：</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="name">
+    <property name="geometry">
+     <rect>
+      <x>100</x>
+      <y>195</y>
+      <width>151</width>
+      <height>30</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>微软雅黑</family>
+      <pointsize>13</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">border-radius: 10px;
+border: 1px solid;</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
@@ -251,7 +377,6 @@
    </widget>
    <addaction name="menu_Help"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
   <action name="About">
    <property name="icon">
     <iconset>
