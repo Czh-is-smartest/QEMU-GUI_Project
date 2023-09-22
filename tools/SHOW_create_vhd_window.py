@@ -4,7 +4,7 @@ import sys
 import tkinter
 from tkinter import filedialog as file_path
 
-from PyQt5 import QtGui, QtWidgets, uic
+from PyQt5 import QtGui, QtWidgets, uic, QtCore
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QApplication
@@ -30,6 +30,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.name.setValidator(self.validator)
         self.VHD_Path.setText(os.path.dirname(__file__))
         self.VHD_Path.textChanged.connect(self.update)
+        self.Path.clicked.connect(self.show_path)
         self.extension.currentTextChanged.connect(self.update)
         self.name.textChanged.connect(self.update)
         self.CancelButton.clicked.connect(self.exit)
@@ -108,17 +109,37 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
             self.update()
 
     def update(self):
+        self.Font = QtGui.QFont()
+        self.Font.setFamily("微软雅黑")
+        self.Font.setPointSize(13)
+        self.Font.setUnderline(True)
+        self.Path.setFont(self.Font)
         self.path = f"{str(self.VHD_Path.text())}\\{self.name.text()}.{self.extension.currentText()}"
         if not os.path.exists(os.path.dirname(self.path)):
             self.Path.setText("无效路径")
+            self.Path.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.Font.setUnderline(False)
+            self.Path.setFont(self.Font)
+        elif not "." in os.path.basename(os.path.abspath(self.path)):
+            self.Path.setText("无效路径")
+            self.Path.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+            self.Font.setUnderline(False)
+            self.Path.setFont(self.Font)
         else:
-            if "." in os.path.basename(os.path.abspath(self.path)):
-                self.Path.setText(os.path.abspath(self.path))
-            else:
-                self.Path.setText("无效路径")
+            self.Path.setText(os.path.abspath(self.path))
+            self.Path.setCursor(QtGui.QCursor(QtCore.Qt.PointingHandCursor))
+        self.VHD_Path.setText(str(self.VHD_Path.text()).replace("/", os.sep))
 
     def create(self):
         pass
+
+    def show_path(self):
+        self.path = self.VHD_Path.text()
+        if os.path.exists(self.path):
+            os.startfile(self.path)
+
+    def none(self):
+        print(114514)
 
 
 if __name__ == "__main__":
