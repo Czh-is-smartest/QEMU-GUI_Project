@@ -128,6 +128,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.VHD_Path.setText(str(self.VHD_Path.text()).replace("/", os.sep))
 
     def create(self):
+        os.chdir("..")
         from modules.get_disk_FreeSpac import get_disk_FreeSpace as get_free
 
         if self.Path.text() == "无效路径":
