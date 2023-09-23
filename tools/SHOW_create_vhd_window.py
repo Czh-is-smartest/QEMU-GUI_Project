@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
+__version__ = "1.0.0"
 import os
 import sys
 import tkinter
 from tkinter import filedialog as file_path
+import subprocess as s
 
 from PyQt5 import QtGui, QtWidgets, uic, QtCore
 from PyQt5.QtCore import QRegExp
@@ -24,8 +26,8 @@ create_vhd_window = uic.loadUiType(
 
 class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def __init__(self, parent=None):
+        sys.path.append(os.path.abspath(".."))
         os.chdir(".\\..")
-        print(os.getcwd())
         super(CreateVHDWindow, self).__init__(parent)
         self.setupUi(self)
         self.icon = QtGui.QIcon("img\\qemu.ico")
@@ -128,7 +130,6 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.VHD_Path.setText(str(self.VHD_Path.text()).replace("/", os.sep))
 
     def create(self):
-        os.chdir("..")
         from modules.get_disk_FreeSpac import get_disk_FreeSpace as get_free
 
         if self.Path.text() == "无效路径":
@@ -138,10 +139,20 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
             if not QMessageBox.question(self, "提示", "文件已存在，是否覆盖？"):
                 return None
         if (
-            self.format.text() == "raw"
-            and get_free(self.Path.text()[:2], self.unit.text()) < self.size.value()
+            self.format.currentText() == "raw"
+            and get_free(self.Path.text()[:2], self.unit.currentText(), 5)
+            < self.size.value()
         ):
             QMessageBox.warning(self, "警告", f'磁盘"{self.Path.text()[:2]}"空间不足！')
+            return None
+
+        cmd = f'qemu\qemu-img create -f {self.format.currentText()} -o size={self.size.value()}{self.unit_list[self.unit.currentText()]} "{self.Path.text()}"'
+        info = s.run(cmd, shell=True, stdout=s.PIPE)  # .read().encode("utf-8").decode()
+        if not info.returncode and os.path.exists(self.Path.text()):
+            QMessageBox.information(self, "提示", "创建成功！")
+
+        else:
+            QMessageBox.warning(self, "错误", "创建失败！%s" % info)
 
     def show_path(self):
         self.path = self.VHD_Path.text()
@@ -152,6 +163,5 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     ui = CreateVHDWindow()
-
     ui.show()
     sys.exit(app.exec_())

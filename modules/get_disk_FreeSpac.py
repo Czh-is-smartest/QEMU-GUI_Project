@@ -1,4 +1,6 @@
-from cmd import run_cmd_Popen_PIPE as run
+import os
+
+# print(os.getcwd())
 
 
 def get_disk_FreeSpace(Drive_Letter: str, size: str, round_num):
@@ -12,7 +14,10 @@ def get_disk_FreeSpace(Drive_Letter: str, size: str, round_num):
         "EB": 1024**6,
     }
     FreeSpace = int(
-        run(f"""wmic logicaldisk where "DeviceID='{Drive_Letter}'" get FreeSpace""")
+        os.popen(
+            f"""wmic logicaldisk where "DeviceID='{Drive_Letter}'" get FreeSpace"""
+        )
+        .read()
         .rstrip()
         .split("\n")[-1]
     )
@@ -21,4 +26,4 @@ def get_disk_FreeSpace(Drive_Letter: str, size: str, round_num):
 
 
 if __name__ == "__main__":
-    print(get_disk_FreeSpace("G:", "EB"))
+    print(get_disk_FreeSpace("G:", "GB", 2))
