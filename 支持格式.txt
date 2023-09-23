@@ -4,8 +4,3 @@ qed：QEMU Enhanced Disk Image，是一个 QEMU 的增强型磁盘镜像格式�
 vdi：VirtualBox 磁盘映像格式。
 vmdk：VMware 虚拟硬盘格式。
 vhdx：Microsoft Hyper-V 虚拟硬盘格式。
-vvfat：VFAT 文件系统镜像格式。
-cloop：Compressed Loop format，使用压缩算法对镜像进行压缩。
-dmg：苹果 macOS 磁盘映像格式。
-dir：目录格式，将硬盘映像保存为目录中的一组文件。
-bochs：Bochs 磁盘映像格式。

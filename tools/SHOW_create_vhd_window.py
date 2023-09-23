@@ -138,9 +138,6 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         if os.path.exists(self.path):
             os.startfile(self.path)
 
-    def none(self):
-        print(114514)
-
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
