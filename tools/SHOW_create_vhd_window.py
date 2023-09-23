@@ -7,7 +7,7 @@ from tkinter import filedialog as file_path
 from PyQt5 import QtGui, QtWidgets, uic, QtCore
 from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
-from PyQt5.QtWidgets import QApplication
+from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtWidgets import QMainWindow
 
 # Form implementation generated from reading ui file 'create_vhd_window.ui'
@@ -24,8 +24,11 @@ create_vhd_window = uic.loadUiType(
 
 class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def __init__(self, parent=None):
+        os.chdir(".\\..")
+        print(os.getcwd())
         super(CreateVHDWindow, self).__init__(parent)
         self.setupUi(self)
+        self.icon = QtGui.QIcon("img\\qemu.ico")
         self.validator = QRegExpValidator(QRegExp('[^/\:*?"|<>]*'))  # 不允许输入 /\:*?"|<>
         self.name.setValidator(self.validator)
         self.VHD_Path.setText(os.path.dirname(__file__))
@@ -34,6 +37,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.extension.currentTextChanged.connect(self.update)
         self.name.textChanged.connect(self.update)
         self.CancelButton.clicked.connect(self.exit)
+        self.CreateButton.clicked.connect(self.create)
         self.tk_init()
         self.format_list = {}
         self.unit_list = {
@@ -44,9 +48,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
             "PB": "P",
             "EB": "E",
         }
-        self.setWindowIcon(
-            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
-        )
+        self.setWindowIcon(self.icon)
 
         self.About.triggered.connect(self.show_about_window)
         self.set_combo()
@@ -57,17 +59,14 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def tk_init(self):
         tk = tkinter.Tk()
         tk.withdraw()
-        tk.iconbitmap(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
+        tk.iconbitmap(f"img\\qemu.ico")
 
     def show_about_window(self):
         from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
 
-        self.window = QMainWindow()
+        self.window = QMainWindow(self)
         ui = Ui_AboutCreateVHDWindow()
         ui.setupUi(self.window)
-        self.window.setWindowIcon(
-            QtGui.QIcon(f"{os.path.dirname(__file__)}\\..\\img\\qemu.ico")
-        )
         self.window.show()
 
     def show_introduce(self, index):
@@ -81,9 +80,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
             self.introduce.setWordWrap(False)
 
     def set_combo(self):
-        with open(
-            f"{os.path.dirname(__file__)}\\..\\支持格式.txt", "r", encoding="utf-8"
-        ) as f:
+        with open(f"支持格式.txt", "r", encoding="utf-8") as f:
             for i in f.readlines():
                 self.format_list[i.split("：")[0]] = i.split("：")[1]
         self.format.addItems(list(self.format_list.keys()))
@@ -131,7 +128,19 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.VHD_Path.setText(str(self.VHD_Path.text()).replace("/", os.sep))
 
     def create(self):
-        pass
+        from modules.get_disk_FreeSpac import get_disk_FreeSpace as get_free
+
+        if self.Path.text() == "无效路径":
+            QMessageBox.warning(self, "警告", "请填入有效的路径！")
+            return None
+        if os.path.exists(self.Path.text()):
+            if not QMessageBox.question(self, "提示", "文件已存在，是否覆盖？"):
+                return None
+        if (
+            self.format.text() == "raw"
+            and get_free(self.Path.text()[:2], self.unit.text()) < self.size.value()
+        ):
+            QMessageBox.warning(self, "警告", f'磁盘"{self.Path.text()[:2]}"空间不足！')
 
     def show_path(self):
         self.path = self.VHD_Path.text()
