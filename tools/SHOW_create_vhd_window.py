@@ -22,6 +22,9 @@ from PyQt5.QtWidgets import QMainWindow
 create_vhd_window = uic.loadUiType(
     f"{os.path.dirname(__file__)}\\..\\ui\\create_vhd_window.ui"
 )[0]
+about_window = uic.loadUiType(
+    f"{os.path.dirname(__file__)}\\..\\ui\\about_create_vhd_window.ui"
+)[0]
 
 
 class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
@@ -64,12 +67,14 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         tk.iconbitmap(f"img\\qemu.ico")
 
     def show_about_window(self):
-        from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
-
-        self.window = QMainWindow(self)
-        ui = Ui_AboutCreateVHDWindow()
-        ui.setupUi(self.window)
-        self.window.show()
+        # from ui.about_create_vhd_window import Ui_AboutCreateVHDWindow
+        #
+        # self.window = QMainWindow(self)
+        # ui = Ui_AboutCreateVHDWindow()
+        # ui.setupUi(self.window)
+        # self.window.show()
+        window = AboutWindow(self)
+        window.show()
 
     def show_introduce(self, index):
         self.introduce.setText(list(self.format_list.values())[index])
@@ -158,6 +163,12 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.path = self.VHD_Path.text()
         if os.path.exists(self.path):
             os.startfile(self.path)
+
+
+class AboutWindow(QMainWindow, about_window):
+    def __init__(self, parent):
+        super(AboutWindow, self).__init__(parent)
+        self.setupUi(self)
 
 
 if __name__ == "__main__":
