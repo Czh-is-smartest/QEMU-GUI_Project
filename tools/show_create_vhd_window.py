@@ -16,7 +16,6 @@ sys.path.append(os.path.abspath(".."))
 from modules.Pyinstaller_img import get_resource_path as get
 
 cwd = os.getcwd()
-os.chdir("..")
 
 create_vhd_window = uic.loadUiType(get("data\\ui\\create_vhd_window.ui"))[0]
 about_window = uic.loadUiType(get("data\\ui\\about_create_vhd_window.ui"))[0]
@@ -145,8 +144,6 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         ):
             QMessageBox.warning(self, "警告", f'磁盘"{self.Path.text()[:2]}"空间不足！')
             return None
-        os.chdir(cwd)
-        os.chdir("..")
         cmd = f'qemu\qemu-img create -f {self.format.currentText()} -o size={self.size.value()}{self.unit_list[self.unit.currentText()]} "{self.Path.text()}"'
         info = s.run(cmd, shell=True, stdout=s.PIPE)  # .read().encode("utf-8").decode()
         if not info.returncode and os.path.exists(self.Path.text()):
@@ -171,8 +168,7 @@ class AboutWindow(QMainWindow, about_window):
         import os
         import re
 
-        os.chdir(cwd)
-        path = f"..\\qemu\\qemu-img.exe --version"
+        path = "qemu\\qemu-img.exe --version"
         version = os.popen(path).read()
         version = re.search(r"\d.*", version.split("\n")[0]).group()
         self.qemu_img_version.setText(f"qemu-img 版本：{version}")
