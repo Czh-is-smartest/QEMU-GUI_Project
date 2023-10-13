@@ -1,30 +1,30 @@
 # -*- coding: utf-8 -*-
 __version__ = "1.0.0"
 import os
+import subprocess as s
 import sys
 import tkinter
 from tkinter import filedialog as file_path
-import subprocess as s
 
 from PyQt5 import QtGui, QtWidgets, uic, QtCore
-from PyQt5.QtCore import QRegExp, Qt
+from PyQt5.QtCore import QRegExp
 from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtWidgets import QMainWindow
 
+sys.path.append(os.path.abspath(".."))
+from modules.Pyinstaller_img import get_resource_path as get
 
-create_vhd_window = uic.loadUiType(
-    f"{os.path.dirname(__file__)}\\..\\ui\\create_vhd_window.ui"
-)[0]
-about_window = uic.loadUiType(
-    f"{os.path.dirname(__file__)}\\..\\ui\\about_create_vhd_window.ui"
-)[0]
+cwd = os.getcwd()
+os.chdir("..")
+
+create_vhd_window = uic.loadUiType(get("data\\ui\\create_vhd_window.ui"))[0]
+about_window = uic.loadUiType(get("data\\ui\\about_create_vhd_window.ui"))[0]
 
 
 class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
     def __init__(self, parent=None):
         sys.path.append(os.path.abspath(".."))
-        os.chdir(".\\..")
         super(CreateVHDWindow, self).__init__(parent)
         self.setupUi(self)
         # self.setWindowFlags(Qt.FramelessWindowHint)
@@ -145,7 +145,8 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         ):
             QMessageBox.warning(self, "警告", f'磁盘"{self.Path.text()[:2]}"空间不足！')
             return None
-
+        os.chdir(cwd)
+        os.chdir("..")
         cmd = f'qemu\qemu-img create -f {self.format.currentText()} -o size={self.size.value()}{self.unit_list[self.unit.currentText()]} "{self.Path.text()}"'
         info = s.run(cmd, shell=True, stdout=s.PIPE)  # .read().encode("utf-8").decode()
         if not info.returncode and os.path.exists(self.Path.text()):
@@ -164,6 +165,18 @@ class AboutWindow(QMainWindow, about_window):
     def __init__(self, parent):
         super(AboutWindow, self).__init__(parent)
         self.setupUi(self)
+        self.get_version()
+
+    def get_version(self):
+        import os
+        import re
+
+        os.chdir(cwd)
+        path = f"..\\qemu\\qemu-img.exe --version"
+        version = os.popen(path).read()
+        version = re.search(r"\d.*", version.split("\n")[0]).group()
+        self.qemu_img_version.setText(f"qemu-img 版本：{version}")
+        self.version.setText(f"虚拟硬盘工具版本：{__version__}")
 
 
 if __name__ == "__main__":
