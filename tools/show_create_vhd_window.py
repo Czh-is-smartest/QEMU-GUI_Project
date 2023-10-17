@@ -12,13 +12,10 @@ from PyQt5.QtGui import QRegExpValidator
 from PyQt5.QtWidgets import QApplication, QMessageBox
 from PyQt5.QtWidgets import QMainWindow
 
-sys.path.append(os.path.abspath(".."))
-from modules.Pyinstaller_img import get_resource_path as get
-
 cwd = os.getcwd()
 
-create_vhd_window = uic.loadUiType(get("data\\ui\\create_vhd_window.ui"))[0]
-about_window = uic.loadUiType(get("data\\ui\\about_create_vhd_window.ui"))[0]
+create_vhd_window = uic.loadUiType("data\\ui\\create_vhd_window.ui")[0]
+about_window = uic.loadUiType("data\\ui\\about_create_vhd_window.ui")[0]
 
 
 class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
@@ -30,7 +27,7 @@ class CreateVHDWindow(QtWidgets.QMainWindow, create_vhd_window):
         self.icon = QtGui.QIcon("img\\qemu.ico")
         self.validator = QRegExpValidator(QRegExp('[^/\:*?"|<>]*'))  # 不允许输入 /\:*?"|<>
         self.name.setValidator(self.validator)
-        self.VHD_Path.setText(os.path.dirname(__file__))
+        self.VHD_Path.setText(os.path.abspath(".\\qemu"))
         self.VHD_Path.textChanged.connect(self.update)
         self.Path.clicked.connect(self.show_path)
         self.extension.currentTextChanged.connect(self.update)
